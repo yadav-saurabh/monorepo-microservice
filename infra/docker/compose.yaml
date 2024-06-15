@@ -1,41 +1,55 @@
 services:
-  nestjs-microservices-kafka:
+  microservices-kafka:
     image: bitnami/kafka
-    container_name: nestjs-microservices-kafka
+    container_name: microservices-kafka
     restart: always
+    environment:
+      KAFKA_CFG_NODE_ID: 1
+      KAFKA_KRAFT_CLUSTER_ID: DxPyKmfmS52V9Z6mY5TZRA # base64 UUID
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      # https://levelup.gitconnected.com/kraft-kafka-cluster-with-docker-e79a97d19f2c
+      KAFKA_CFG_LISTENERS: INTERNAL://microservices-kafka:29092,CONTROLLER://microservices-kafka:29093,EXTERNAL://0.0.0.0:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://microservices-kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@nestjs-microservices-kafka:29093
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
     ports:
-      - '9092:9092'
+      - 9092:9092
 
-  nestjs-microservices-postgres:
+  microservices-postgres:
     image: postgres
     restart: unless-stopped
-    container_name: node-auth-postgres
+    container_name: microservices-postgres
     environment:
       POSTGRES_DB: ${POSTGRESQL_DB_NAME}
       POSTGRES_USER: ${POSTGRESQL_USER}
       POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
     ports:
-      - 5432:5432
+      - 5002:5432
 
-  nestjs-microservices-keycloak:
+  microservices-keycloak-postgres:
+    image: postgres
+    restart: unless-stopped
+    container_name: microservices-keycloak-postgres
+    environment:
+      POSTGRES_DB: ${KEYCLOAK_POSTGRESQL_DB}
+      POSTGRES_USER: ${KEYCLOAK_POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRESQL_PASS}
+
+  microservices-keycloak:
     image: bitnami/keycloak
+    container_name: microservices-keycloak
     depends_on:
-      - nestjs-microservices-keycloak-postgres
-    container_name: keycloak
+      - microservices-postgres
     environment:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KEYCLOAK_HOSTNAME: localhost
+      KEYCLOAK_DATABASE_HOST: microservices-keycloak-postgres
       KEYCLOAK_DATABASE_NAME: ${KEYCLOAK_POSTGRESQL_DB}
       KEYCLOAK_DATABASE_USER: ${KEYCLOAK_POSTGRESQL_USER}
       KEYCLOAK_DATABASE_PASSWORD: ${KEYCLOAK_POSTGRESQL_PASS}
-    command: start-dev --import-realm
     ports:
-      - "8080:8080"
-    restart: unless-stopped
-    volumes:
-      - ../docker/keycloak/imports:/opt/keycloak/data/import
-    networks:
-      - local-keycloak
+      - 5001:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"

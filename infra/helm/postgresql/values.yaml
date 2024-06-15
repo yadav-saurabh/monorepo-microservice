@@ -1,0 +1,14 @@
+postgresql:
+  readReplicas:
+    persistence:
+      size: 4Gi
+  primary:
+    persistence:
+      size: 4Gi
+    initdb:
+      scripts:
+        init.sh: |
+          #!/bin/bash
+          PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -U postgres -c "CREATE USER $READ_ONLY_USER_NAME WITH PASSWORD '$READ_ONLY_USER_PASSWORD';GRANT pg_read_all_data TO $READ_ONLY_USER_NAME;"
+  metrics:
+      enabled: false

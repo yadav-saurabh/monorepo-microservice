@@ -1,23 +1,25 @@
-apiVersion: skaffold/v4beta1
+apiVersion: skaffold/v4beta9
 kind: Config
+metadata:
+  name: nestjs-microservice
 build:
   artifacts:
-    - image: users-api
-      context: ../services/keys
+    - image: keys-api
+      context: ../
       sync:
         manual:
           - src: /src/**/*.ts
-            dest: .
+            dest: ./services/keys
       docker:
-        dockerfile: Dockerfile
+        dockerfile: ./services/keys/Dockerfile
     - image: web3-api
-      context: ../services/web3
+      context: ../
       sync:
         manual:
           - src: /src/**/*.ts
-            dest: .
+            dest: ./services/web3
       docker:
-        dockerfile: Dockerfile
+        dockerfile: ./services/web3/Dockerfile
   local:
     push: false
     concurrency: 1
@@ -26,34 +28,31 @@ manifests:
     releases:
       - name: ingress
         chartPath: helm/ingress
-        # skipBuildDependencies: true
       - name: kafka
         chartPath: helm/kafka
-        valuesFiles:
-          - ./helm/common/values.yaml
         namespace: kafka
         createNamespace: true
-        # skipBuildDependencies: true
+      - name: keycloak
+        chartPath: helm/keycloak
+        namespace: keycloak
+        createNamespace: true
       - name: postgresql
         chartPath: helm/postgresql
         valuesFiles:
           - ./helm/common/values.yaml
         namespace: database
         createNamespace: true
-        # skipBuildDependencies: true
       - name: keys-api
         chartPath: helm/keys
         valuesFiles:
           - ./helm/common/values.yaml
         setValues:
           image.repository: keys-api
-        # skipBuildDependencies: true
       - name: web3-api
         chartPath: helm/web3
         valuesFiles:
           - ./helm/common/values.yaml
         setValues:
           image.repository: web3-api
-        # skipBuildDependencies: true
 deploy:
   helm: {}

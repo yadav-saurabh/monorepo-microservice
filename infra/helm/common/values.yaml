@@ -1,0 +1,9 @@
+replicaCount: 1
+nodeEnv: local
+
+postgresql:
+  auth:
+    dbUrl: postgres-service
+    username: nestjs-microservices-user
+    password: nestjs-microservices-pass-1234
+    database: nestjs-microservices
