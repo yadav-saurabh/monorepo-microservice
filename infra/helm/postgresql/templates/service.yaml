@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.postgresql.auth.dbUrl }}
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: postgresql.database.svc.cluster.local
+  ports:
+  - port: 5432

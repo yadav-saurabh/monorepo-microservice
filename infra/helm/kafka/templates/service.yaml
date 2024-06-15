@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kafka-service
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: kafka.kafka.svc.cluster.local
+  ports:
+  - port: 9092

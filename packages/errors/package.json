@@ -1,0 +1,12 @@
+{
+  "name": "@nestjs-microservices/errors",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "*"
+  }
+}

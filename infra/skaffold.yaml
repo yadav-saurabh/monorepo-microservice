@@ -1,0 +1,59 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+build:
+  artifacts:
+    - image: users-api
+      context: ../services/keys
+      sync:
+        manual:
+          - src: /src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: web3-api
+      context: ../services/web3
+      sync:
+        manual:
+          - src: /src/**/*.ts
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false
+    concurrency: 1
+manifests:
+  helm:
+    releases:
+      - name: ingress
+        chartPath: helm/ingress
+        # skipBuildDependencies: true
+      - name: kafka
+        chartPath: helm/kafka
+        valuesFiles:
+          - ./helm/common/values.yaml
+        namespace: kafka
+        createNamespace: true
+        # skipBuildDependencies: true
+      - name: postgresql
+        chartPath: helm/postgresql
+        valuesFiles:
+          - ./helm/common/values.yaml
+        namespace: database
+        createNamespace: true
+        # skipBuildDependencies: true
+      - name: keys-api
+        chartPath: helm/keys
+        valuesFiles:
+          - ./helm/common/values.yaml
+        setValues:
+          image.repository: keys-api
+        # skipBuildDependencies: true
+      - name: web3-api
+        chartPath: helm/web3
+        valuesFiles:
+          - ./helm/common/values.yaml
+        setValues:
+          image.repository: web3-api
+        # skipBuildDependencies: true
+deploy:
+  helm: {}

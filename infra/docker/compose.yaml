@@ -1,0 +1,41 @@
+services:
+  nestjs-microservices-kafka:
+    image: bitnami/kafka
+    container_name: nestjs-microservices-kafka
+    restart: always
+    ports:
+      - '9092:9092'
+
+  nestjs-microservices-postgres:
+    image: postgres
+    restart: unless-stopped
+    container_name: node-auth-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRESQL_DB_NAME}
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+    ports:
+      - 5432:5432
+
+  nestjs-microservices-keycloak:
+    image: bitnami/keycloak
+    depends_on:
+      - nestjs-microservices-keycloak-postgres
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_HOSTNAME: localhost
+      KEYCLOAK_DATABASE_NAME: ${KEYCLOAK_POSTGRESQL_DB}
+      KEYCLOAK_DATABASE_USER: ${KEYCLOAK_POSTGRESQL_USER}
+      KEYCLOAK_DATABASE_PASSWORD: ${KEYCLOAK_POSTGRESQL_PASS}
+    command: start-dev --import-realm
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    volumes:
+      - ../docker/keycloak/imports:/opt/keycloak/data/import
+    networks:
+      - local-keycloak
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

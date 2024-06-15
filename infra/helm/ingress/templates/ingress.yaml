@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nlb
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host:  {{ .Values.host }}
+      http:
+        paths:
+          - path: /api/keys/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: keys-service
+                port:
+                  number: 3000
+          - path: /api/web3/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: web3-service
+                port:
+                  number: 3000
