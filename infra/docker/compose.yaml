@@ -39,27 +39,3 @@ services:
       POSTGRES_PASSWORD: ${WEB3_DB_PASSWORD}
     ports:
       - 5002:5432
-
-  microservices-keycloak-postgres:
-    image: postgres
-    restart: unless-stopped
-    container_name: microservices-keycloak-postgres
-    environment:
-      POSTGRES_DB: ${KEYCLOAK_POSTGRESQL_DB}
-      POSTGRES_USER: ${KEYCLOAK_POSTGRESQL_USER}
-      POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRESQL_PASS}
-
-  microservices-keycloak:
-    image: bitnami/keycloak
-    container_name: microservices-keycloak
-    depends_on:
-      - microservices-keycloak-postgres
-    environment:
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KEYCLOAK_DATABASE_HOST: microservices-keycloak-postgres
-      KEYCLOAK_DATABASE_NAME: ${KEYCLOAK_POSTGRESQL_DB}
-      KEYCLOAK_DATABASE_USER: ${KEYCLOAK_POSTGRESQL_USER}
-      KEYCLOAK_DATABASE_PASSWORD: ${KEYCLOAK_POSTGRESQL_PASS}
-    ports:
-      - 5001:8080
