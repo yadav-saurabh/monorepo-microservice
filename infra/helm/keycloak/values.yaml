@@ -1,0 +1,7 @@
+keycloak:
+  ingress:
+    enabled: true
+    hostname: keycloak.microservices.test
+  auth:
+    adminUser: admin
+    adminPassword: admin

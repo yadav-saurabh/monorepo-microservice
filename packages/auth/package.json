@@ -3,13 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
   },
   "dependencies": {
     "@nestjs-microservices/errors": "*"
   },
   "peerDependencies": {
     "@nestjs/common": "*"
+  },
+  "devDependencies": {
+    "typescript": "5.4.4"
   }
 }

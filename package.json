@@ -2,6 +2,7 @@
   "name": "nestjs-microservices",
   "private": true,
   "scripts": {
+    "prune": "turbo prune",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",

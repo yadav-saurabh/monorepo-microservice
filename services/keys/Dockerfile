@@ -20,22 +20,20 @@ WORKDIR /app
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
-# COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY --from=builder /app/out/package*.json ./
 RUN npm install
  
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN npm run build --filter=@nestjs-microservices/keys...
+RUN npm run build -- --filter=@nestjs-microservices/keys...
  
 FROM base AS runner
 WORKDIR /app
 
 # Don't run production as root
-# RUN addgroup --system --gid 1001 nodejs
-# RUN addgroup --system --uid 1001 nodejs
-# USER nodejs
- 
-COPY --from=installer /app/services/keys/package.json .
- 
-CMD node dist/main.js
+RUN addgroup --system --gid 1001 nestjs
+RUN adduser --system --uid 1001 nestjs
+USER nestjs
+
+COPY --from=installer /app .
+CMD node services/keys/dist/main.js

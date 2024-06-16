@@ -1,0 +1,8 @@
+kafka:
+  controller:
+    replicaCount: 1
+  kraft:
+    enabled: true
+  zookeeper:
+    enabled: false
+    servers: []

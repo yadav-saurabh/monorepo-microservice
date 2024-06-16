@@ -5,7 +5,7 @@ metadata:
 build:
   artifacts:
     - image: keys-api
-      context: ../
+      context: .
       sync:
         manual:
           - src: /src/**/*.ts
@@ -13,7 +13,7 @@ build:
       docker:
         dockerfile: ./services/keys/Dockerfile
     - image: web3-api
-      context: ../
+      context: .
       sync:
         manual:
           - src: /src/**/*.ts
@@ -27,31 +27,35 @@ manifests:
   helm:
     releases:
       - name: ingress
-        chartPath: helm/ingress
+        chartPath: ./infra/helm/ingress
+        # skipBuildDependencies: true
       - name: kafka
-        chartPath: helm/kafka
+        chartPath: ./infra/helm/kafka
         namespace: kafka
         createNamespace: true
+        # skipBuildDependencies: true
       - name: keycloak
-        chartPath: helm/keycloak
+        chartPath: ./infra/helm/keycloak
         namespace: keycloak
         createNamespace: true
+        # skipBuildDependencies: true
       - name: postgresql
-        chartPath: helm/postgresql
+        chartPath: ./infra/helm/postgresql
         valuesFiles:
-          - ./helm/common/values.yaml
+          - ./infra/helm/common/values.yaml
         namespace: database
         createNamespace: true
+        # skipBuildDependencies: true
       - name: keys-api
-        chartPath: helm/keys
+        chartPath: ./infra/helm/keys
         valuesFiles:
-          - ./helm/common/values.yaml
+          - ./infra/helm/common/values.yaml
         setValues:
           image.repository: keys-api
       - name: web3-api
-        chartPath: helm/web3
+        chartPath: ./infra/helm/web3
         valuesFiles:
-          - ./helm/common/values.yaml
+          - ./infra/helm/common/values.yaml
         setValues:
           image.repository: web3-api
 deploy:

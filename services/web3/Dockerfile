@@ -25,11 +25,16 @@ RUN npm install
  
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN npm run build --filter=@nestjs-microservices/web3...
+COPY turbo.json turbo.json
+RUN npm run build -- --filter=@nestjs-microservices/web3...
  
 FROM base AS runner
 WORKDIR /app
- 
-COPY --from=installer /app/services/web3/package.json .
- 
-CMD node dist/main.js
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 nestjs
+RUN adduser --system --uid 1001 nestjs
+USER nestjs
+
+COPY --from=installer /app .
+CMD node services/web3/dist/main.js
