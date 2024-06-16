@@ -18,12 +18,12 @@ export class KeysService {
     return this.keyRepository.save(entity);
   }
 
-  findAll() {
-    return this.keyRepository.find();
+  findAll(userId: string) {
+    return this.keyRepository.find({ where: { userId } });
   }
 
-  findOne(key: string) {
-    return this.keyRepository.findOneBy({ key });
+  findOne(userId: string, key: string) {
+    return this.keyRepository.findOneBy({ key, userId });
   }
 
   update(key: string, data: UpdateKeyDto) {

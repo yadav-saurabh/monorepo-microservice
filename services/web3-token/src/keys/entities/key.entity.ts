@@ -8,8 +8,8 @@ export class Key {
   @Column({ name: 'user_id' })
   userId: string;
 
-  @Column({ name: 'request_rate' })
-  rateLimit: number;
+  @Column({ name: 'req_rate', default: 100 })
+  reqRate: number;
 
   @Column({ type: 'date' })
   expiration: Date;

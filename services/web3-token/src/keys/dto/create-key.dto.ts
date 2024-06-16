@@ -16,7 +16,7 @@ export class CreateKeyDto {
   userId: string;
 
   @IsNumber()
-  rateLimit: number;
+  reqRate: number;
 
   @IsDateString()
   expiration: Date;

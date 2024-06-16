@@ -26,32 +26,32 @@ build:
 manifests:
   helm:
     releases:
-      - name: ingress
-        chartPath: ./infra/helm/ingress
-        # skipBuildDependencies: true
-      - name: kafka
-        chartPath: ./infra/helm/kafka
-        namespace: kafka
-        createNamespace: true
-        skipBuildDependencies: true
-      - name: keycloak
-        chartPath: ./infra/helm/keycloak
-        namespace: keycloak
-        createNamespace: true
-        # skipBuildDependencies: true
+      # - name: ingress
+      #   chartPath: ./infra/helm/ingress
+      #   skipBuildDependencies: true
+      # - name: kafka
+      #   chartPath: ./infra/helm/kafka
+      #   namespace: kafka
+      #   createNamespace: true
+      #   skipBuildDependencies: true
+      # - name: keycloak
+      #   chartPath: ./infra/helm/keycloak
+      #   namespace: keycloak
+      #   createNamespace: true
+      #   skipBuildDependencies: true
       - name: keys-api
         chartPath: ./infra/helm/keys
         valuesFiles:
           - ./infra/helm/common/values.yaml
         setValues:
           image.repository: keys-api
-        # skipBuildDependencies: true
+        skipBuildDependencies: true
       - name: web3-api
         chartPath: ./infra/helm/web3
         valuesFiles:
           - ./infra/helm/common/values.yaml
         setValues:
           image.repository: web3-api
-        # skipBuildDependencies: true
+        skipBuildDependencies: true
 deploy:
   helm: {}

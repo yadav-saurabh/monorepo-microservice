@@ -1,6 +1,7 @@
+import { APP_GUARD } from '@nestjs/core';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule, minutes } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoHttpConfig } from '@nestjs-microservices/config';
 import { authMiddleware } from '@nestjs-microservices/auth';
@@ -11,11 +12,12 @@ import { AppService } from './app.service';
 import { KafkaModule } from './kafka/kafka.module';
 import { KeysModule } from './keys/keys.module';
 import { TokensModule } from './tokens/tokens.module';
+import { UserThrottlerGuardGuard } from './user-throttler-guard/user-throttler-guard.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ['../../.env', '.env'] }),
-    ThrottlerModule.forRoot(),
+    ThrottlerModule.forRoot([{ ttl: minutes(1), limit: 100 }]),
     LoggerModule.forRoot({ pinoHttp: pinoHttpConfig }),
     KafkaModule,
     TypeOrmModule.forRoot({
@@ -32,7 +34,13 @@ import { TokensModule } from './tokens/tokens.module';
     TokensModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: UserThrottlerGuardGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

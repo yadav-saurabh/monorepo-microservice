@@ -9,5 +9,6 @@ import { Key } from './entities/key.entity';
   imports: [TypeOrmModule.forFeature([Key])],
   controllers: [KeysController],
   providers: [KeysService],
+  exports: [KeysService],
 })
 export class KeysModule {}
