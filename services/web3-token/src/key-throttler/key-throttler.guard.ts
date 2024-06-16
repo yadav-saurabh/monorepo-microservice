@@ -21,7 +21,7 @@ import { KeysService } from 'src/keys/keys.service';
 type ExpressObject = { req: Request; res: Response };
 
 @Injectable()
-export class UserThrottlerGuardGuard extends ThrottlerGuard {
+export class KeyThrottlerGuard extends ThrottlerGuard {
   constructor(
     options: ThrottlerModuleOptions,
     storageService: ThrottlerStorage,

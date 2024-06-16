@@ -17,7 +17,7 @@ spec:
                 name: keys-service
                 port:
                   number: 3000
-          - path: /api/web3
+          - path: /api/tokens
             pathType: Prefix
             backend:
               service:

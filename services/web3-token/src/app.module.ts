@@ -12,7 +12,7 @@ import { AppService } from './app.service';
 import { KafkaModule } from './kafka/kafka.module';
 import { KeysModule } from './keys/keys.module';
 import { TokensModule } from './tokens/tokens.module';
-import { UserThrottlerGuardGuard } from './user-throttler-guard/user-throttler-guard.guard';
+import { KeyThrottlerGuard } from './key-throttler/key-throttler.guard';
 
 @Module({
   imports: [
@@ -38,7 +38,7 @@ import { UserThrottlerGuardGuard } from './user-throttler-guard/user-throttler-g
     AppService,
     {
       provide: APP_GUARD,
-      useClass: UserThrottlerGuardGuard,
+      useClass: KeyThrottlerGuard,
     },
   ],
 })
