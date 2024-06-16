@@ -1,27 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { EVENTS } from '@nestjs-microservices/events';
 import helmet from 'helmet';
 import { Logger } from 'nestjs-pino';
 
 import { AppModule } from './app.module';
+import { getKafkaConnectionOptions } from './utils';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   });
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.KAFKA,
-    options: {
-      client: { clientId: EVENTS.KEYS.ID, brokers: ['kafka-service:9092'] },
-      consumer: { groupId: EVENTS.KEYS.CONSUMER },
-      subscribe: { fromBeginning: true },
-    },
-  });
+  app.connectMicroservice<MicroserviceOptions>(
+    getKafkaConnectionOptions(process.env.KAKFA_BROKER, true),
+  );
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
@@ -44,7 +39,7 @@ async function bootstrap() {
   app.flushLogs();
   await app.startAllMicroservices();
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
   console.log(`KEYS Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

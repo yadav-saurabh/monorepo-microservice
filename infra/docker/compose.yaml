@@ -2,6 +2,7 @@ services:
   microservices-kafka:
     image: bitnami/kafka
     container_name: microservices-kafka
+    hostname: microservices-kafka
     restart: always
     environment:
       KAFKA_CFG_NODE_ID: 1
@@ -11,20 +12,31 @@ services:
       KAFKA_CFG_LISTENERS: INTERNAL://microservices-kafka:29092,CONTROLLER://microservices-kafka:29093,EXTERNAL://0.0.0.0:9092
       KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://microservices-kafka:29092,EXTERNAL://localhost:9092
       KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
-      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@nestjs-microservices-kafka:29093
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@microservices-kafka:29093
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
     ports:
       - 9092:9092
 
-  microservices-postgres:
+  microservices-key-postgre:
     image: postgres
     restart: unless-stopped
-    container_name: microservices-postgres
+    container_name: microservices-key-postgres
     environment:
-      POSTGRES_DB: ${POSTGRESQL_DB_NAME}
-      POSTGRES_USER: ${POSTGRESQL_USER}
-      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${KEY_DB_DATABASE}
+      POSTGRES_USER: ${KEY_DB_USERNAME}
+      POSTGRES_PASSWORD: ${KEY_DB_PASSWORD}
+    ports:
+      - 5003:5432
+
+  microservices-web3-postgre:
+    image: postgres
+    restart: unless-stopped
+    container_name: microservices-web3-postgres
+    environment:
+      POSTGRES_DB: ${WEB3_DB_DATABASE}
+      POSTGRES_USER: ${WEB3_DB_USERNAME}
+      POSTGRES_PASSWORD: ${WEB3_DB_PASSWORD}
     ports:
       - 5002:5432
 
@@ -41,7 +53,7 @@ services:
     image: bitnami/keycloak
     container_name: microservices-keycloak
     depends_on:
-      - microservices-postgres
+      - microservices-keycloak-postgres
     environment:
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
@@ -51,5 +63,3 @@ services:
       KEYCLOAK_DATABASE_PASSWORD: ${KEYCLOAK_POSTGRESQL_PASS}
     ports:
       - 5001:8080
-    extra_hosts:
-      - "host.docker.internal:host-gateway"

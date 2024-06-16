@@ -9,17 +9,17 @@ build:
       sync:
         manual:
           - src: /src/**/*.ts
-            dest: ./services/keys
+            dest: ./services/key-management
       docker:
-        dockerfile: ./services/keys/Dockerfile
+        dockerfile: ./services/key-management/Dockerfile
     - image: web3-api
       context: .
       sync:
         manual:
           - src: /src/**/*.ts
-            dest: ./services/web3
+            dest: ./services/web3-token
       docker:
-        dockerfile: ./services/web3/Dockerfile
+        dockerfile: ./services/web3-token/Dockerfile
   local:
     push: false
     concurrency: 1
@@ -28,24 +28,24 @@ manifests:
     releases:
       - name: ingress
         chartPath: ./infra/helm/ingress
-        # skipBuildDependencies: true
+        skipBuildDependencies: true
       - name: kafka
         chartPath: ./infra/helm/kafka
         namespace: kafka
         createNamespace: true
-        # skipBuildDependencies: true
+        skipBuildDependencies: true
       - name: keycloak
         chartPath: ./infra/helm/keycloak
         namespace: keycloak
         createNamespace: true
-        # skipBuildDependencies: true
+        skipBuildDependencies: true
       - name: postgresql
         chartPath: ./infra/helm/postgresql
         valuesFiles:
           - ./infra/helm/common/values.yaml
         namespace: database
         createNamespace: true
-        # skipBuildDependencies: true
+        skipBuildDependencies: true
       - name: keys-api
         chartPath: ./infra/helm/keys
         valuesFiles:

@@ -25,7 +25,6 @@ RUN npm install
  
 # Build the project
 COPY --from=builder /app/out/full/ .
-COPY turbo.json turbo.json
 RUN npm run build -- --filter=@nestjs-microservices/web3...
  
 FROM base AS runner
