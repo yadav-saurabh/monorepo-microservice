@@ -21,7 +21,7 @@ import { TokensModule } from './tokens/tokens.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.WEB3_DB_HOST,
-      port: +process.env.WEB3_DB_PORT,
+      port: +(process.env.WEB3_DB_PORT || 5432),
       username: process.env.WEB3_DB_USERNAME,
       password: process.env.WEB3_DB_PASSWORD,
       database: process.env.WEB3_DB_DATABASE,

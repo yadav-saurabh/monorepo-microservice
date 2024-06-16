@@ -14,7 +14,7 @@ import { getKafkaConnectionOptions } from '../utils';
       provide: KAFKA_SERVICE,
       useFactory: (configService: ConfigService) =>
         ClientProxyFactory.create(
-          getKafkaConnectionOptions(configService.get('KAKFA_BROKER')),
+          getKafkaConnectionOptions(configService.get('KAFKA_BROKER')),
         ),
       inject: [ConfigService],
     },

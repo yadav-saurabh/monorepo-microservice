@@ -1,9 +1,0 @@
-postgresql:
-  readReplicas:
-    persistence:
-      size: 4Gi
-  primary:
-    persistence:
-      size: 4Gi
-  metrics:
-      enabled: false

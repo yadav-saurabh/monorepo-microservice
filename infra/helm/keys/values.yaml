@@ -2,3 +2,12 @@ replicaCount: 1
 image:
   repository: keys-api
   pullPolicy: IfNotPresent
+
+postgresql:
+  auth:
+    dbUrl: keys-api-postgresql
+    username: nestjs-microservices-user
+    password: nestjs-microservices-pass-1234
+    database: nestjs-microservices
+
+port: 3000

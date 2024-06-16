@@ -15,7 +15,7 @@ async function bootstrap() {
   });
 
   app.connectMicroservice<MicroserviceOptions>(
-    getKafkaConnectionOptions(process.env.KAKFA_BROKER, true),
+    getKafkaConnectionOptions(process.env.KAFKA_BROKER, true),
   );
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));

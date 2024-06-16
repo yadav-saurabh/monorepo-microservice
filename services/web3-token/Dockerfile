@@ -36,4 +36,4 @@ RUN adduser --system --uid 1001 nestjs
 USER nestjs
 
 COPY --from=installer /app .
-CMD node services/web3/dist/main.js
+CMD node services/web3-token/dist/main.js

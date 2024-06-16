@@ -20,7 +20,7 @@ import { KeysModule } from './keys/keys.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.KEY_DB_HOST,
-      port: +process.env.KEY_DB_PORT,
+      port: +(process.env.KEY_DB_PORT || 5432),
       username: process.env.KEY_DB_USERNAME,
       password: process.env.KEY_DB_PASSWORD,
       database: process.env.KEY_DB_DATABASE,

@@ -16,15 +16,17 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}"
           env:
-            - name: DB_NAME
+            - name: WEB3_DB_DATABASE
               value: {{ .Values.postgresql.auth.database }}
-            - name: DB_USERNAME
+            - name: WEB3_DB_USERNAME
               value: {{ .Values.postgresql.auth.username }}
-            - name: DB_PASSWORD
+            - name: WEB3_DB_PASSWORD
               value: {{ .Values.postgresql.auth.password }}
-            - name: DB_URL
+            - name: WEB3_DB_HOST
               value: {{ .Values.postgresql.auth.dbUrl }}
-            - name: KAKFA_BROKER
+            - name: KAFKA_BROKER
               value: {{ .Values.kafkaBroker }}
+            - name: PORT
+              value: "{{ .Values.port }}"
             - name: NODE_ENV
               value: {{ .Values.nodeEnv }}

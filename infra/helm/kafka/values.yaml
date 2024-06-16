@@ -3,6 +3,10 @@ kafka:
     replicaCount: 1
   kraft:
     enabled: true
+    clusterId: DxPyKmfmS52V9Z6mY5TZRA
   zookeeper:
     enabled: false
     servers: []
+  listeners:
+    client:
+      protocol: PLAINTEXT

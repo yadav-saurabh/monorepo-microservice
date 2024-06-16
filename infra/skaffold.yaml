@@ -28,7 +28,7 @@ manifests:
     releases:
       - name: ingress
         chartPath: ./infra/helm/ingress
-        skipBuildDependencies: true
+        # skipBuildDependencies: true
       - name: kafka
         chartPath: ./infra/helm/kafka
         namespace: kafka
@@ -38,25 +38,20 @@ manifests:
         chartPath: ./infra/helm/keycloak
         namespace: keycloak
         createNamespace: true
-        skipBuildDependencies: true
-      - name: postgresql
-        chartPath: ./infra/helm/postgresql
-        valuesFiles:
-          - ./infra/helm/common/values.yaml
-        namespace: database
-        createNamespace: true
-        skipBuildDependencies: true
+        # skipBuildDependencies: true
       - name: keys-api
         chartPath: ./infra/helm/keys
         valuesFiles:
           - ./infra/helm/common/values.yaml
         setValues:
           image.repository: keys-api
+        # skipBuildDependencies: true
       - name: web3-api
         chartPath: ./infra/helm/web3
         valuesFiles:
           - ./infra/helm/common/values.yaml
         setValues:
           image.repository: web3-api
+        # skipBuildDependencies: true
 deploy:
   helm: {}

@@ -3,3 +3,11 @@ image:
   repository: web3-api
   pullPolicy: IfNotPresent
 
+postgresql:
+  auth:
+    dbUrl: web3-api-postgresql
+    username: nestjs-microservices-user
+    password: nestjs-microservices-pass-1234
+    database: nestjs-microservices
+
+port: 3000
