@@ -3,33 +3,24 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { KeysService } from './keys.service';
 import { CreateKeyDto } from './dto/create-key.dto';
 import { UpdateKeyDto } from './dto/update-key.dto';
+import { EVENTS } from '@nestjs-microservices/events';
 
 @Controller()
 export class KeysController {
   constructor(private readonly keysService: KeysService) {}
 
-  @MessagePattern('createKey')
+  @MessagePattern(EVENTS.KEYS.CREATED)
   create(@Payload() createKeyDto: CreateKeyDto) {
     return this.keysService.create(createKeyDto);
   }
 
-  @MessagePattern('findAllKeys')
-  findAll() {
-    return this.keysService.findAll();
-  }
-
-  @MessagePattern('findOneKey')
-  findOne(@Payload() id: number) {
-    return this.keysService.findOne(id);
-  }
-
-  @MessagePattern('updateKey')
+  @MessagePattern(EVENTS.KEYS.UPDATED)
   update(@Payload() updateKeyDto: UpdateKeyDto) {
-    return this.keysService.update(updateKeyDto.id, updateKeyDto);
+    return this.keysService.update(updateKeyDto.key, updateKeyDto);
   }
 
-  @MessagePattern('removeKey')
-  remove(@Payload() id: number) {
-    return this.keysService.remove(id);
+  @MessagePattern(EVENTS.KEYS.DELETED)
+  remove(@Payload() key: string) {
+    return this.keysService.remove(key);
   }
 }

@@ -1,6 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  MethodNotAllowedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { Request } from 'express';
 
 import { CreateKeyDto } from './dto/create-key.dto';
 import { UpdateKeyDto } from './dto/update-key.dto';
@@ -18,19 +23,43 @@ export class KeysService {
     return this.keyRepository.save(entity);
   }
 
-  findAll() {
-    return this.keyRepository.find();
+  findAll(user: Request['user']) {
+    if (user.isAdmin) {
+      return this.keyRepository.find();
+    }
+    return this.keyRepository.find({ where: { userId: user.id } });
   }
 
-  findOne(id: number) {
-    return this.keyRepository.findOneBy({ id: id });
+  findOne(user: Request['user'], key: string) {
+    if (user.isAdmin) {
+      return this.keyRepository.findOneBy({ key });
+    }
+    return this.keyRepository.findOneBy({ key, userId: user.id });
   }
 
-  update(id: number, data: UpdateKeyDto) {
-    return this.keyRepository.update({ id }, { ...data });
+  async update(
+    user: Request['user'],
+    key: string,
+    data: UpdateKeyDto,
+  ): Promise<Key> {
+    const condition: FindOptionsWhere<Key> = { key };
+    if (!user.isAdmin) {
+      condition.userId = user.id;
+      if (data.userId) {
+        throw new MethodNotAllowedException('cannot update userId');
+      }
+    }
+    const keyData = await this.keyRepository.findOneBy(condition);
+    if (!keyData) {
+      throw new NotFoundException('Key Not Found');
+    }
+    return this.keyRepository.save({ ...keyData, ...data });
   }
 
-  remove(id: number) {
-    return this.keyRepository.delete(id);
+  remove(user: Request['user'], key: string) {
+    if (user.isAdmin) {
+      return this.keyRepository.delete({ key });
+    }
+    return this.keyRepository.delete({ key, userId: user.id });
   }
 }

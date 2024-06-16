@@ -1,16 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Key {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn('uuid')
+  key: string;
 
-  @Column({ name: 'request_rate', default: 100 })
+  @Column({ name: 'user_id' })
+  userId: string;
+
+  @Column({ name: 'request_rate' })
   rateLimit: number;
 
-  @Column({ nullable: true })
-  expiration: string;
+  @Column({ type: 'date' })
+  expiration: Date;
 
-  @Column({ name: 'is_active', default: true })
+  @Column({ name: 'is_active' })
   isActive: boolean;
 }

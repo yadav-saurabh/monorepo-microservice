@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoHttpConfig } from '@nestjs-microservices/config';
 import { authMiddleware } from '@nestjs-microservices/auth';
@@ -14,7 +13,6 @@ import { KeysModule } from './keys/keys.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ['../../.env', '.env'] }),
-    ThrottlerModule.forRoot(),
     LoggerModule.forRoot({ pinoHttp: pinoHttpConfig }),
     KafkaModule,
     TypeOrmModule.forRoot({

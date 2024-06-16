@@ -1,11 +1,10 @@
 import { Request, Response, NextFunction } from "express";
+import * as jwt from "jsonwebtoken";
 
 import { AuthorizationError } from "@nestjs-microservices/errors";
 
 export interface UserReqObj {
   id: string;
-  name: string;
-  email: string;
   isAdmin: boolean;
 }
 
@@ -19,10 +18,14 @@ export const authMiddleware = async (
   if (!authorizationHeader) {
     throw new AuthorizationError();
   }
-  const token = authorizationHeader.replace(/bearer/i, "");
+  const token = authorizationHeader.replace(/bearer /i, "");
 
   try {
-    console.log(token);
+    const decodedToken = jwt.decode(token);
+    req.user = {
+      id: decodedToken.sub,
+      isAdmin: !!decodedToken.isAdmin,
+    };
     return next();
   } catch {
     throw new AuthorizationError();

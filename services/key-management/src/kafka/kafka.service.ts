@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 
+import { EVENTS } from '@nestjs-microservices/events';
+import { Key } from 'src/keys/entities/key.entity';
 import { KAFKA_SERVICE } from './kafka.constants';
 
 @Injectable()
@@ -18,5 +20,17 @@ export class KafkaService implements OnModuleInit, OnApplicationShutdown {
 
   async onApplicationShutdown() {
     await this.client.close();
+  }
+
+  emitKeysCreated(data: Key) {
+    this.client.emit(EVENTS.KEYS.CREATED, { value: { ...data } });
+  }
+
+  emitKeysUpdated(data: Key) {
+    this.client.emit(EVENTS.KEYS.UPDATED, { value: { ...data } });
+  }
+
+  emitKeysDeleted(data: { key: string }) {
+    this.client.emit(EVENTS.KEYS.DELETED, { value: { ...data } });
   }
 }

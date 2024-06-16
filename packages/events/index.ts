@@ -1,6 +1,9 @@
 const KEYS_EVENTS = {
   ID: "keys",
   CONSUMER: "keys-consumer",
+  CREATED: "keys.created",
+  UPDATED: "keys.updated",
+  DELETED: "keys.deleted",
 };
 
 const WEB3_EVENTS = {

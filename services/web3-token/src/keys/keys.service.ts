@@ -22,15 +22,15 @@ export class KeysService {
     return this.keyRepository.find();
   }
 
-  findOne(id: number) {
-    return this.keyRepository.findOneBy({ id: id });
+  findOne(key: string) {
+    return this.keyRepository.findOneBy({ key });
   }
 
-  update(id: number, data: UpdateKeyDto) {
-    return this.keyRepository.update({ id }, { ...data });
+  update(key: string, data: UpdateKeyDto) {
+    return this.keyRepository.update({ key }, { ...data });
   }
 
-  remove(id: number) {
-    return this.keyRepository.delete(id);
+  remove(key: string) {
+    return this.keyRepository.delete(key);
   }
 }

@@ -12,7 +12,8 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@nestjs-microservices/errors": "*"
+    "@nestjs-microservices/errors": "*",
+    "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {
     "@nestjs/common": "*"

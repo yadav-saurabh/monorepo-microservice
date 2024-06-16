@@ -2,14 +2,20 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Key {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  key: string;
 
-  @Column({ name: 'request_rate', default: 100 })
-  rateLimit: number;
+  @Column({ name: 'user_id' })
+  userId: string;
 
-  @Column({ nullable: true })
-  expiration: string;
+  @Column({ name: 'req_rate', default: 100 })
+  reqRate: number;
+
+  @Column({
+    type: 'date',
+    default: () => `now() + interval '10 day'`,
+  })
+  expiration: Date;
 
   @Column({ name: 'is_active', default: true })
   isActive: boolean;
