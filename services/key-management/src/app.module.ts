@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
-import { pinoHttpConfig } from '@nestjs-microservices/config';
-import { authMiddleware } from '@nestjs-microservices/auth';
+import { pinoHttpConfig } from '@microservices/config';
+import { authMiddleware } from '@microservices/auth';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';

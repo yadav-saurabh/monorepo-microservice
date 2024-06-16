@@ -1,4 +1,4 @@
-import { EVENTS } from '@nestjs-microservices/events';
+import { EVENTS } from '@microservices/events';
 import { ClientOptions, Transport } from '@nestjs/microservices';
 
 export function getKafkaConnectionOptions(

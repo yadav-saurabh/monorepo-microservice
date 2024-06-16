@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-microservices/auth",
+  "name": "@microservices/auth",
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
@@ -12,7 +12,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@nestjs-microservices/errors": "*",
+    "@microservices/errors": "*",
     "jsonwebtoken": "^9.0.2"
   },
   "peerDependencies": {

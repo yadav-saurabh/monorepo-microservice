@@ -6,8 +6,8 @@ image:
 postgresql:
   auth:
     dbUrl: web3-api-postgresql
-    username: nestjs-microservices-user
-    password: nestjs-microservices-pass-1234
-    database: nestjs-microservices
+    username: microservices-user
+    password: microservices-pass-1234
+    database: microservices
 
 port: 3000

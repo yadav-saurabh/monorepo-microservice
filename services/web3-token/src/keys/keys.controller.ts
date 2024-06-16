@@ -3,7 +3,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { KeysService } from './keys.service';
 import { CreateKeyDto } from './dto/create-key.dto';
 import { UpdateKeyDto } from './dto/update-key.dto';
-import { EVENTS } from '@nestjs-microservices/events';
+import { EVENTS } from '@microservices/events';
 
 @Controller()
 export class KeysController {

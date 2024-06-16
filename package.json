@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-microservices",
+  "name": "microservices",
   "private": true,
   "scripts": {
     "prune": "turbo prune",

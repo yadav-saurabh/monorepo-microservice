@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 
-import { AuthorizationError } from "@nestjs-microservices/errors";
+import { AuthorizationError } from "@microservices/errors";
 
 export interface UserReqObj {
   id: string;

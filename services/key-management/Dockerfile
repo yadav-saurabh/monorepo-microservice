@@ -8,8 +8,8 @@ RUN yarn global add turbo@^2
 COPY . .
  
 # Generate a partial monorepo with a pruned lockfile for a target workspace.
-# Assuming "@nestjs-microservices/keys" is the name entered in the project's package.json: { name: "@nestjs-microservices/keys" }
-RUN turbo prune @nestjs-microservices/keys --docker
+# Assuming "@microservices/keys" is the name entered in the project's package.json: { name: "@microservices/keys" }
+RUN turbo prune @microservices/keys --docker
  
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -25,7 +25,7 @@ RUN npm install
  
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN npm run build -- --filter=@nestjs-microservices/keys...
+RUN npm run build -- --filter=@microservices/keys...
  
 FROM base AS runner
 WORKDIR /app

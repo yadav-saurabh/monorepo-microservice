@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-microservices/errors",
+  "name": "@microservices/errors",
   "version": "1.0.0",
   "private": true,
   "license": "MIT",

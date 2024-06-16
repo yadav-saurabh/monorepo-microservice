@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 
-import { EVENTS } from '@nestjs-microservices/events';
+import { EVENTS } from '@microservices/events';
 import { Key } from 'src/keys/entities/key.entity';
 import { KAFKA_SERVICE } from './kafka.constants';
 

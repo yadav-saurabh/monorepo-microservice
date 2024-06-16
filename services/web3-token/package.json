@@ -1,5 +1,5 @@
 {
-  "name": "@nestjs-microservices/web3",
+  "name": "@microservices/web3",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -20,9 +20,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs-microservices/auth": "*",
-    "@nestjs-microservices/config": "*",
-    "@nestjs-microservices/events": "*",
+    "@microservices/auth": "*",
+    "@microservices/config": "*",
+    "@microservices/events": "*",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
