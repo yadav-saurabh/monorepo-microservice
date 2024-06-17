@@ -102,7 +102,7 @@ Here is what you need.
 
 #### /api/tokens (web3-token)
 
-- GET
+- GET (access-key as key generated from /api/keys in the req headers)
 
 **Here is the working example of project using Docker and Docker-Compose**: [Video Link](https://drive.google.com/file/d/1CjMzWYZ_-zSM_2eiGbGx4_EBfhrJhLZL/view?usp=sharing)  
 
