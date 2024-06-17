@@ -10,8 +10,6 @@ To get a local copy up and running, please follow these simple steps.
 
 Here is what you need.
 
-### Prerequisite
-
 - [Node.js](https://nodejs.org/en)  (Version: >= 20.x)
 - [docker](https://docs.docker.com/engine/install/), [docker-compose (if not using k8s)](https://docs.docker.com/compose/install/) (Version: >= 26.x, 2.x)
 
