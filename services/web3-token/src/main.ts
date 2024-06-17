@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.setGlobalPrefix('api', { exclude: ['/'] });
+  app.setGlobalPrefix('api');
 
   const options = new DocumentBuilder()
     .setTitle('Web3 Api')
